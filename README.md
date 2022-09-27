@@ -1,9 +1,15 @@
-# Fabric Example Mod
+# fabric-painter
+A fabric mod for painting with the ArtMap plugin
 
-## Setup
+## SETUP
+DISCLAIMER: This is only for eclipse and probably wont work
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+- in the directory with the gradle stuff type "gradlew genSources"
+- do "gradlew eclipse"
+- do "gradlew genEclipseRuns"
 
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+Everything after this point is even more of a guess than before
+- open eclipse, then create a gradle project
+- select directory above the directory with the gradle stuff as the work directory
+- hope it works, as it should detect the run configs and let you run stuff
+- if this doesn't work I have no idea how to fix it

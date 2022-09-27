@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "painter",
+  "version": "0.0.0",
+
+  "name": "Painter",
+  "description": "A mod that paints on canvas's from the ArtMap plugin",
+  "authors": [
+    ";3c"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.fabric.painter.Painter"
+    ]
+  },
+   "mixins": [
+
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric-api": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

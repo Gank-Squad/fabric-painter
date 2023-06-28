@@ -3,6 +3,10 @@ package net.fabric.painter.actions;
 import org.lwjgl.glfw.GLFW;
 
 import net.fabric.painter.Painter;
+import net.fabric.painter.gui.GuiBase;
+import net.fabric.painter.gui.GuiScreen;
+import net.fabric.painter.instructions.InstructionBlock;
+import net.fabric.painter.instructions.Point;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
@@ -12,9 +16,18 @@ import net.minecraft.text.Text;
 public class Hotkeys 
 {
 	private static KeyBinding startstop;
-	private static KeyBinding show;
-	private static KeyBinding fromFile;
-	private static boolean toggle = false;
+	private static KeyBinding openGUI;
+	
+	private static KeyBinding right;
+	private static KeyBinding left;
+	private static KeyBinding up;
+	private static KeyBinding down;
+	
+	public static int row = 0;
+	public static int col = 0;
+	
+	public static boolean toggle = false;
+//	private ArrayList<String> orientations = new ArrayList<String>();
 	
 	public Hotkeys()
 	{
@@ -25,27 +38,100 @@ public class Hotkeys
 				"Painter"
 				));
 			
-		show = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+		openGUI = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"Stop Painting",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_O,
 				"Painter"
 				));
 		
-		fromFile = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-				"Load instructions from file",
+		right = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+				"increments col by 1",
 				InputUtil.Type.KEYSYM,
-				GLFW.GLFW_KEY_P,
+				GLFW.GLFW_KEY_RIGHT,
 				"Painter"
 				));
+		
+		left = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+				"decrement col by 1",
+				InputUtil.Type.KEYSYM,
+				GLFW.GLFW_KEY_LEFT,
+				"Painter"
+				));
+		
+		up = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+				"decrements row by 1",
+				InputUtil.Type.KEYSYM,
+				GLFW.GLFW_KEY_UP,
+				"Painter"
+				));
+		
+		down = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+				"increments row by 1",
+				InputUtil.Type.KEYSYM,
+				GLFW.GLFW_KEY_DOWN,
+				"Painter"
+				));
+		
 	}
 	public static boolean getToggle()
 	{
 		return toggle;
 	}
+
+	private void updateOrientation()
+	{
+		if (Queue.instMan != null)
+			Perform.doInstruction(new InstructionBlock(Queue.instMan.getColorAtPoint(new Point(col,row)).item, new Point(col, row), InstructionBlock.NO_CLICK));
+		else
+			Perform.doInstruction(new InstructionBlock(null, new Point(col, row), InstructionBlock.NO_CLICK));
+	}
+	
 	public void listen()
 	{
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			
+			while(left.wasPressed())
+			{
+				col--;
+				if (col < 0)
+				{
+					col = 31;
+				}
+
+				updateOrientation();
+				
+			}
+			while(right.wasPressed())
+			{
+				col++;
+				if (col > 31)
+				{
+					col = 0;
+				}
+
+				updateOrientation();
+			}
+			while(up.wasPressed())
+			{
+				row--;
+				if (row < 0)
+				{
+					row = 31;
+				}
+
+				updateOrientation();
+			}
+			while(down.wasPressed())
+			{
+				row++;
+				if (row > 31)
+				{
+					row = 0;
+				}
+
+				updateOrientation();
+			}
 			
 			while(startstop.wasPressed())
 			{
@@ -58,15 +144,14 @@ public class Hotkeys
 				{
 					client.player.sendMessage(Text.literal("stopped"), false);
 				}
+				
+//				orientations.clear();
+//				client.player.sendMessage(Text.literal("cleared"), false);
 			}
-			while(show.wasPressed())
+			while(openGUI.wasPressed())
 			{
-				String str = "Y" + Float.toString(client.player.getYaw()) + ", P" + Float.toString(client.player.getPitch());
-				client.player.sendMessage(Text.literal(str), false);
-			}
-			while(fromFile.wasPressed())
-			{
-				client.player.sendMessage(Text.literal("fromFile hotkey was pressed"), false);
+//				// open gui
+				Painter.mc.getInstance().setScreen(new GuiScreen(new GuiBase()));
 			}
 		});
 	}

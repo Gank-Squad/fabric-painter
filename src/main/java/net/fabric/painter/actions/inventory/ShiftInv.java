@@ -3,51 +3,41 @@ package net.fabric.painter.actions.inventory;
 import net.fabric.painter.Painter;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.SlotActionType;
 
 public class ShiftInv 
 {
-	// move index1 to the spot of index2 & vice versa
-	public static void swap(int index1, int index2)
+	
+	/*
+	 * Takes the item you want in your active hand as a parameter
+	 * searches inventory for that item, if it finds it, it moves it to the current main hand slot
+	 * or, if the item is in the hotbar, it swaps to that slot instead of moving item
+	 */
+	public static boolean setItemInActiveHand(Item item)
 	{
-		if (Painter.mc.player.getInventory().getStack(index1) != ItemStack.EMPTY)
+		int index = Painter.mc.player.getInventory().indexOf(item.getDefaultStack());
+		
+		// not in inventory
+		if (index == -1)
+			return false;
+		
+		// already selected, do nothing
+		if (index == Painter.mc.player.getInventory().selectedSlot)
+			return true;
+		
+		// swap active hand
+		if (index < 9)
 		{
-			// pick up item in index1
-			Painter.mc.interactionManager.clickSlot(Painter.mc.player.playerScreenHandler.syncId, index1, 0, SlotActionType.PICKUP, Painter.mc.player);
-			
-			boolean move = Painter.mc.player.getInventory().getStack(index2) == ItemStack.EMPTY;
-			
-			// move it to target spot / pick up index2
-			Painter.mc.interactionManager.clickSlot(Painter.mc.player.playerScreenHandler.syncId, index2, 0, SlotActionType.PICKUP, Painter.mc.player);
-			
-			if (move)
-			{
-				// if there was an item in index2 move it to where index1 was
-				Painter.mc.interactionManager.clickSlot(Painter.mc.player.playerScreenHandler.syncId, index1, 0, SlotActionType.PICKUP, Painter.mc.player);
-			}
-		}
-		else if (Painter.mc.player.getInventory().getStack(index2) != ItemStack.EMPTY)
-		{
-			// pick up index2
-			Painter.mc.interactionManager.clickSlot(Painter.mc.player.playerScreenHandler.syncId, index2, 0, SlotActionType.PICKUP, Painter.mc.player);
-			
-			boolean move = Painter.mc.player.getInventory().getStack(index1) == ItemStack.EMPTY;
-			
-			// place index2 on index1
-			Painter.mc.interactionManager.clickSlot(Painter.mc.player.playerScreenHandler.syncId, index1, 0, SlotActionType.PICKUP, Painter.mc.player);
-			
-			if (move)
-			{
-				// if there was an item in index1 move it to where index2 was
-				Painter.mc.interactionManager.clickSlot(Painter.mc.player.playerScreenHandler.syncId, index2, 0, SlotActionType.PICKUP, Painter.mc.player);
-			}
+			// item is in hotbar, so change active slot to that
+			Painter.mc.player.getInventory().selectedSlot = index;
+			return true;
 		}
 		
+		//otherwise, swap slots
+		Painter.mc.interactionManager.pickFromInventory(index);
 		
-		Painter.LOGGER.info("swapped");
+		return true;
 	}
-	
-	
-	
 }

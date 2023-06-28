@@ -2,10 +2,10 @@ package net.fabric.painter.actions;
 
 public class LookDir 
 {
-	public double yaw;
-	public double pitch;
+	public float yaw;
+	public float pitch;
 	
-	public LookDir(double yaw, double pitch)
+	public LookDir(float yaw, float pitch)
 	{
 		this.yaw = yaw;
 		this.pitch = pitch;

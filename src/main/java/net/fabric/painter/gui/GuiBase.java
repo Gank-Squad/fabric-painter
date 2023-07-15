@@ -1,6 +1,5 @@
 package net.fabric.painter.gui;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Scanner;
 
@@ -10,13 +9,9 @@ import io.github.cottonmc.cotton.gui.widget.WButton;
 import io.github.cottonmc.cotton.gui.widget.WDynamicLabel;
 import io.github.cottonmc.cotton.gui.widget.WGridPanel;
 import io.github.cottonmc.cotton.gui.widget.WLabel;
-import io.github.cottonmc.cotton.gui.widget.WLabeledSlider;
 import io.github.cottonmc.cotton.gui.widget.WScrollPanel;
-import io.github.cottonmc.cotton.gui.widget.WSlider;
 import io.github.cottonmc.cotton.gui.widget.WSprite;
 import io.github.cottonmc.cotton.gui.widget.WTextField;
-import io.github.cottonmc.cotton.gui.widget.WToggleButton;
-import io.github.cottonmc.cotton.gui.widget.data.Axis;
 import io.github.cottonmc.cotton.gui.widget.data.HorizontalAlignment;
 import io.github.cottonmc.cotton.gui.widget.data.VerticalAlignment;
 import net.fabric.painter.Painter;
@@ -27,10 +22,6 @@ import net.fabric.painter.fileio.ReadFromFile;
 import net.fabric.painter.instructions.InstructionManager;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 //import io.github.cottonmc.cotton.gui.widget.WToggleButton;
@@ -60,8 +51,8 @@ public class GuiBase extends LightweightGuiDescription {
 	{
 		if (this.root != null)
 		{
-			reRender();	
-//			resetAll();
+//			reRender();	
+			resetAll();
 			return;
 		}
 		resetAll();
@@ -75,16 +66,9 @@ public class GuiBase extends LightweightGuiDescription {
 //	    root.setSize(420, 240);
 	}
 	
-	private void resetScroll()
-	{
-		// everything should stay the same except for the scroll with dyes
-		// redraw everything but reuse all their widgets, except for the scroll ones
-		// those need to be redone
-	}
-	
 	private void reset(boolean selected)
 	{
-		this.root = new WGridPanel();
+		root = new WGridPanel();
 		setRootPanel(root);
 		root.setSize(420, 240);
 		
@@ -144,7 +128,29 @@ public class GuiBase extends LightweightGuiDescription {
 	    
 	    
 	    createSelectedPanel(root, selected);
+	    
+	    // delay (in ticks) between actions
+	    WButton increaseTicks = new WButton();
+	    increaseTicks.setLabel(Text.literal("+"));
+	    increaseTicks.setOnClick(() ->{
+			if (Queue.delay < 30)
+				Queue.delay++;
+		});
+	    WButton decreaseTicks = new WButton();
+	    decreaseTicks.setLabel(Text.literal("-"));
+	    decreaseTicks.setOnClick(() ->{
+			if (Queue.delay > 5)
+				Queue.delay--;
+		});
+	    
+	    root.add(increaseTicks, 1, 9, 1, 1);
+		root.add(decreaseTicks, 2, 9, 1, 1);
 
+		WDynamicLabel DelayLabel = new WDynamicLabel(() -> I18n.translate("tick delay: %d", Queue.delay), -1);
+		DelayLabel.setColor(0, 0);
+		
+	    root.add(DelayLabel, 3, 9, 5, 2);
+		
 	    root.validate(this); 
 		
 	}
@@ -199,107 +205,5 @@ public class GuiBase extends LightweightGuiDescription {
 		root.add(panelPlus, 1, 7, 1, 1);
 		root.add(panelMinus, 2, 7, 1, 1);
 		root.add(loadInstructions, 3, 7, 2, 1);
-	}
-	
-	
-	
-	// these two functions no longer serve a purpose due to inability to update gui
-	private void createScrollPanel(WGridPanel root, boolean reset)
-	{
-		if (reset)
-		{
-			this.scrollContents = new WGridPanel();
-			populateScrollPanelWithSprites(filePath.getText() + "_InstructionSet\\" + panelNum + "c.csv", scrollContents);
-			
-			scrollPanel = new WScrollPanel(scrollContents);
-			
-			scrollPanel.setScrollingHorizontally(TriState.FALSE);
-		    scrollPanel.setScrollingVertically(TriState.TRUE);
-		    scrollPanel.setBackgroundPainter(BackgroundPainter.createColorful(0));
-		}
-	    
-	    root.add(scrollPanel, 1,9,11,3);
-	}
-	
-
-	private void populateScrollPanelWithSprites(String pathToCountCSV, WGridPanel panel)
-	{
-		
-		File file;
-		Scanner reader = null;
-		int x = 0;
-		int y = 0;
-		
-		final int width = 10;
-		
-		try
-		{
-			file = new File(pathToCountCSV);
-			
-			reader = new Scanner(file);
-			
-			
-			while (reader.hasNextLine())
-			{
-				String data = reader.nextLine();
-
-				// ignore any whitespace
-				if (data.isBlank())
-					continue;
-				
-				String[] tokens = data.split(",");
-				
-				if (tokens.length != 2)
-					continue;
-				
-				String dye = tokens[0];
-				String count = tokens[1];
-				
-				if (x == width)
-				{
-					x = 0;
-					y++;
-				}
-				
-				Color dyeColor = Colors.fromString(dye);
-				
-				String key = dyeColor.item.getTranslationKey();
-				key = "minecraft:textures/" + key.replaceAll("[.]", "/").replaceFirst("minecraft/", "") + ".png";
-				
-				WSprite sprite = new WSprite(new Identifier(key));
-				panel.add(sprite, x, y, 1, 1);
-				
-				
-				WLabel label = new WLabel(Text.literal(count), 0x00FF00);
-				WLabel superScript = new WLabel(Text.literal("" + dyeColor.lightness), 0);
-				
-				if (!Painter.mc.player.getInventory().contains(dyeColor.item.getDefaultStack()))
-					label.setColor(0xFF0000);
-				
-				label.setHorizontalAlignment(HorizontalAlignment.RIGHT);
-				label.setVerticalAlignment(VerticalAlignment.BOTTOM);
-				
-				superScript.setHorizontalAlignment(HorizontalAlignment.RIGHT);
-				superScript.setVerticalAlignment(VerticalAlignment.TOP);
-				
-			    panel.add(label, x, y, 1, 1);
-			    panel.add(superScript, x, y, 1, 1);
-				
-			    
-			    
-				
-				x++;
-			}
-			
-			panel.setSize(40, y * 8);
-			
-		}
-		catch(Exception e) { e.printStackTrace(); }
-		finally
-		{
-			if (reader != null)
-				reader.close();
-		}
-		
 	}
 }

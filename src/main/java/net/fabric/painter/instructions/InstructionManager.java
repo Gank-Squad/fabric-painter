@@ -79,8 +79,11 @@ public class InstructionManager {
 	 */
 	public ArrayList<InstructionBlock> getNextStep(PlayerInventory inv)
 	{
+		if (this.currentColor == null)
+			return null;
+		
 		// make sure the current color does not need to be changed
-		if (stepOnColor >= colors.get(currentColor).size())
+		if (stepOnColor >= colors.get(this.currentColor).size())
 		{
 			this.currentColor = getNextMostCommonColor(this.currentColor);
 			this.stepOnColor = 0;
@@ -93,22 +96,31 @@ public class InstructionManager {
 			
 			System.out.println("NEW COLOR: " + this.currentColor.name);
 		}
-		System.out.println(stepOnColor + " - " + colors.get(currentColor).size());
-		// make sure the player has the dye in their inventory
-		while (!inv.contains(currentColor.item.getDefaultStack()))
+		
+		// should handle cases where the canvas is only 1 color and prevent a crash
+		// along with other stuff probably
+		if (this.currentColor == null)
 		{
-			Color prev = this.currentColor;
+			return null;
+		}
+		System.out.println((this.currentColor == null) + " hewwo " + this.currentColor.item.getName().getString() + " " + !inv.contains(this.currentColor.item.getDefaultStack()));
+		System.out.println(stepOnColor + " - " + colors.get(this.currentColor).size());
+		// make sure the player has the dye in their inventory
+		while (!inv.contains(this.currentColor.item.getDefaultStack()))
+		{
 			this.currentColor = getNextMostCommonColor(this.currentColor);
 			
-			if (prev == this.currentColor)
+			if (this.currentColor == null)
 				return null;
 			
 			this.stepOnColor = 0;
 		}
 		
+		if (this.currentColor == null)
+			return null;
 		
 		// get next grid square to paint on
-		Point point = colors.get(currentColor).get(stepOnColor);
+		Point point = colors.get(this.currentColor).get(stepOnColor);
 		
 		// create arraylist for instructions
 		ArrayList<InstructionBlock> instructions = new ArrayList<InstructionBlock>();
@@ -128,7 +140,7 @@ public class InstructionManager {
 		if (this.sponge == null || !this.sponge.equals(this.currentColor))
 		{
 			
-			if (this.colors.get(currentColor).size() > 2)
+			if (this.colors.get(this.currentColor).size() > 2)
 			{
 				// instructions for setting the sponge
 				// left click = set the sponge color

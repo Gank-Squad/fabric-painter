@@ -12,7 +12,7 @@ import net.minecraft.text.Text;
 public class Queue 
 {
 	private static int counter = 0;
-	private static int delay = 7;
+	public static int delay = 7;
 	public static int step = 0;
 	public static ArrayList<InstructionBlock> instructions = null;
 	
@@ -23,51 +23,49 @@ public class Queue
 	public static void startCounter()
 	{
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {
-			if (Hotkeys.getToggle() && instMan == null)
+			if (!Hotkeys.getToggle())
+			{
+				return;
+			}
+			else if (Hotkeys.getToggle() && instMan == null)
 			{
 				client.player.sendMessage(Text.literal("Instructions missing, load instructions before trying to begin"), false);
 				Hotkeys.toggle = false;
 			}
-			else if (instMan == null)
-			{
-				return;
-			}
 			else
 			{
-//				try
-//				{
-//					Painter.mc.player.setYaw((float)  Positions.getOrientation(Hotkeys.row, Hotkeys.col, Positions.NORTH).yaw);
-//					Painter.mc.player.setPitch((float)Positions.getOrientation(Hotkeys.row, Hotkeys.col, Positions.NORTH).pitch);	
-//				}
-//				catch (NullPointerException e)
-//				{
-//					System.out.println("nullptr");
-//				}
-//				catch(Exception e)
-//				{
-//					System.out.println("some other error");
-//				}
-
-				if (Painter.mc == null || Painter.mc.player == null || Painter.mc.player.getInventory() == null)
+				/*
+				 * exit if minecraft isn't initialized,
+				 * if player doesn't exist
+				 * if inventory doesn't exist
+				 * if there is no instruction manager
+				 */
+				if (Painter.mc == null || Painter.mc.player == null || Painter.mc.player.getInventory() == null || instMan == null)
 					return;
 				
-				if (instMan == null)
-					return;
-				
+				/*
+				 * if there are no instructions BUT there is an instruction manager,
+				 * get the instructions
+				 */
 				if (instructions == null)
 				{
 					instructions = instMan.getNextStep(Painter.mc.player.getInventory());
 				}
 				
+				// if there are no more steps, return
 				if (instructions == null)
 				{
+					client.player.sendMessage(Text.literal("No more instructions:3"), false);
+					Hotkeys.toggle = false;
+					instMan = null;
 					return;
 				}
-				
+
+				// not really sure why this check is here/needed unless the player tried stopping in the middle of a tick,
+				// but I think this would cause an instruction to be skipped
 				if (Hotkeys.toggle == false)
 					return;
-//				if (Hotkeys.toggle == true)
-//					return;
+
 				counter++;
 				counter = counter % delay;
 				

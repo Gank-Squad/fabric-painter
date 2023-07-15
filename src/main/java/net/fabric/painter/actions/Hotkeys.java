@@ -139,10 +139,12 @@ public class Hotkeys
 				if (toggle)
 				{
 					client.player.sendMessage(Text.literal("started"), false);
+					Queue.position = Painter.mc.player.getPos();
 				}
 				else
 				{
 					client.player.sendMessage(Text.literal("stopped"), false);
+					Queue.position = null;
 				}
 				
 //				orientations.clear();

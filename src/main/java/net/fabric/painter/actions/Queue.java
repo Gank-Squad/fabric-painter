@@ -12,6 +12,7 @@ import net.fabric.painter.instructions.InstructionManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.Vec3d;
 
 public class Queue 
 {
@@ -20,6 +21,7 @@ public class Queue
 	public static int step = 0;
 	public static ArrayList<InstructionBlock> instructions = null;
 	
+	public static Vec3d position = null;
 	private static boolean longDelay = false;
 	
 	public static InstructionManager instMan = null;
@@ -38,6 +40,20 @@ public class Queue
 				client.player.sendMessage(Text.literal("Instructions missing, load instructions before trying to begin"), false);
 				Hotkeys.toggle = false;
 			}
+			else if (Painter.mc == null || Painter.mc.player == null || Painter.mc.player.getInventory() == null || instMan == null)
+			{
+				return;
+			}
+			else if (Painter.mc.player.getVehicle() == null)
+			{
+				client.player.sendMessage(Text.literal("not sitting, sit at easel before trying to paint"), false);
+				Hotkeys.toggle = false;
+			}
+			else if (!Painter.mc.player.getPos().equals(position) && Painter.mc.player.getPos() != null)
+			{
+				client.player.sendMessage(Text.literal("no longer in same position, stopping"), false);
+				Hotkeys.toggle = false;
+			}
 			else
 			{
 				/*
@@ -48,7 +64,6 @@ public class Queue
 				 */
 				if (Painter.mc == null || Painter.mc.player == null || Painter.mc.player.getInventory() == null || instMan == null)
 					return;
-				
 				/*
 				 * if there are no instructions BUT there is an instruction manager,
 				 * get the instructions

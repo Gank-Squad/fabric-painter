@@ -103,8 +103,7 @@ public class InstructionManager {
 		{
 			return null;
 		}
-		System.out.println((this.currentColor == null) + " hewwo " + this.currentColor.item.getName().getString() + " " + !inv.contains(this.currentColor.item.getDefaultStack()));
-		System.out.println(stepOnColor + " - " + colors.get(this.currentColor).size());
+
 		// make sure the player has the dye in their inventory
 		while (!inv.contains(this.currentColor.item.getDefaultStack()))
 		{

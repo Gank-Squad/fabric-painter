@@ -2,19 +2,25 @@ package net.fabric.painter.actions;
 
 import java.util.ArrayList;
 
+import org.apache.commons.compress.harmony.unpack200.bytecode.forms.ThisFieldRefForm;
+
 import net.fabric.painter.Painter;
+import net.fabric.painter.color.Colors;
 import net.fabric.painter.fileio.ReturnBody;
 import net.fabric.painter.instructions.InstructionBlock;
 import net.fabric.painter.instructions.InstructionManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 
 public class Queue 
 {
 	private static int counter = 0;
-	public static int delay = 7;
+	public static int delay = 8;
 	public static int step = 0;
 	public static ArrayList<InstructionBlock> instructions = null;
+	
+	private static boolean longDelay = false;
 	
 	public static InstructionManager instMan = null;
 	
@@ -55,7 +61,7 @@ public class Queue
 				// if there are no more steps, return
 				if (instructions == null)
 				{
-					client.player.sendMessage(Text.literal("No more instructions:3"), false);
+					client.player.sendMessage(Text.literal("No more instructions"), false);
 					Hotkeys.toggle = false;
 					instMan = null;
 					return;
@@ -67,8 +73,7 @@ public class Queue
 					return;
 
 				counter++;
-				counter = counter % delay;
-				
+				counter = counter % (longDelay ? (int)(delay * 1.5) : delay);
 				if (counter == 0)
 				{
 					if (step >= instructions.size())
@@ -86,9 +91,23 @@ public class Queue
 						return;
 					}
 					
+					
+					// make the delay longer if changing dyes
+					// reasoning is that messing this up could potentially require a very large chunk of the painting
+					// to be repainted
+					if (instructions.size() > 1)
+					{
+						longDelay = true;
+					}
+					else
+					{
+						longDelay = false;
+					}
+					
 					Perform.doInstruction(instructions.get(step));
 					
 					step++;
+					
 				}
 			}
 				

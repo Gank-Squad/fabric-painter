@@ -51,8 +51,8 @@ public class GuiBase extends LightweightGuiDescription {
 	{
 		if (this.root != null)
 		{
-//			reRender();	
-			resetAll();
+			reRender();	
+//			resetAll();
 			return;
 		}
 		resetAll();

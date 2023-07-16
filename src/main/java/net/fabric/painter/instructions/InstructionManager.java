@@ -151,6 +151,8 @@ public class InstructionManager {
 					// move needed to active hand
 					// set left click field
 				instructions.add(new InstructionBlock(this.currentColor.item, point, InstructionBlock.LEFT_CLICK));
+				// double up because having issues with the dye not being placed
+				instructions.add(new InstructionBlock(this.currentColor.item, point, InstructionBlock.LEFT_CLICK));
 				
 				// darken/lighten (left click)
 				switch(this.currentColor.lightness)
@@ -165,6 +167,7 @@ public class InstructionManager {
 				}
 				
 				// left click with sponge
+				instructions.add(new InstructionBlock(Items.SPONGE, point, InstructionBlock.LEFT_CLICK));
 				instructions.add(new InstructionBlock(Items.SPONGE, point, InstructionBlock.LEFT_CLICK));
 				
 				// update sponge color
@@ -239,21 +242,28 @@ public class InstructionManager {
 			// skip if more common
 			if (e.getValue().size() > origSize)
 				continue;
+				
+			// skip if original color
+			if (e.getKey().equals(c))
+				continue;
+			
+			// same size, can't be bothered to do a not terrible fix
+			if (e.getValue().size() == origSize && !this.prevColors.contains(e.getKey()) && !c.equals(e.getKey()))
+			{
+				nextMaxColor = e.getKey();
+				break;
+			}
 			
 			// smaller than current, bigger than everything else so far
-			if (e.getValue().size() > nextLargest)
+			if (e.getValue().size() > nextLargest && !e.getValue().equals(c))
 			{
+				System.out.println(e.getValue().size() + " - " + origSize);
 				nextLargest = e.getValue().size();
 				nextMaxColor = e.getKey();
 				continue;
 			}
 			
-			// same size, can't be bothered to do a not terrible fix
-			if (e.getValue().size() == origSize && !this.prevColors.contains(e.getKey()))
-			{
-				nextMaxColor = e.getKey();
-				break;
-			}
+			
 		}
 		
 		if (nextMaxColor == c)

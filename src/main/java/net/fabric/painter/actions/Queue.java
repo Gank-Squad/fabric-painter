@@ -76,7 +76,7 @@ public class Queue
 				// if there are no more steps, return
 				if (instructions == null)
 				{
-					client.player.sendMessage(Text.literal("No more instructions"), false);
+					client.player.sendMessage(Text.literal("No more instructions:3"), false);
 					Hotkeys.toggle = false;
 					instMan = null;
 					return;
@@ -88,7 +88,7 @@ public class Queue
 					return;
 
 				counter++;
-				counter = counter % (longDelay ? (int)(delay * 1.5) : delay);
+				counter = counter % (longDelay ? (int)(delay * 3) : delay);
 				if (counter == 0)
 				{
 					if (step >= instructions.size())

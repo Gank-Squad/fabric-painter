@@ -45,6 +45,8 @@ public class GuiBase extends LightweightGuiDescription {
 	
 	public static String progress = "";
 	
+	public static String backgroundDye = "";
+	
 	public static WGridPanel root = null;
 	
 	public GuiBase()
@@ -121,6 +123,10 @@ public class GuiBase extends LightweightGuiDescription {
 	    WLabel panelDisclaimer2 = new WLabel(Text.literal("select that panels instructions to paint"));
 	    root.add(panelDisclaimer, 6,6);
 	    root.add(panelDisclaimer2, 6,7);
+	    
+	    WDynamicLabel backDye = new WDynamicLabel(() -> I18n.translate("background color: %s", backgroundDye), -1);
+	    backDye.setColor(0, 0);
+		root.add(backDye, 6, 8, 5, 2);
 	    
 	    WLabel processingDisclaimer = new WLabel(Text.literal("All image processing must be done beforehand, will convert image as is"));
 	    processingDisclaimer.setVerticalAlignment(VerticalAlignment.BOTTOM);

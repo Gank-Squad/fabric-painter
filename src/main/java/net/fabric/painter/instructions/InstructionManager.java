@@ -10,6 +10,7 @@ import net.fabric.painter.color.Color;
 import net.fabric.painter.color.Colors;
 import net.fabric.painter.fileio.ReadFromFile;
 import net.fabric.painter.fileio.ReturnBody;
+import net.fabric.painter.gui.GuiBase;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -67,6 +68,7 @@ public class InstructionManager {
 		this.prevColors = new HashSet<Color>(colors.size()+1);
 		// set currentColor
 		this.currentColor = getNextMostCommonColor(null);
+		GuiBase.backgroundDye = this.currentColor.toString();
 		
 		// ignore the most common color for the time being, assume player manually set the background
 		this.currentColor = getNextMostCommonColor(this.currentColor);

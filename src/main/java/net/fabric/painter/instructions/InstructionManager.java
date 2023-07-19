@@ -2,7 +2,9 @@ package net.fabric.painter.instructions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import net.fabric.painter.color.Color;
 import net.fabric.painter.color.Colors;
@@ -25,7 +27,8 @@ public class InstructionManager {
 	
 	private Color[][] colorGrid;
 	
-	private ArrayList<Color> prevColors = new ArrayList<Color>();
+//	private ArrayList<Color> prevColors = new ArrayList<Color>();
+	private Set<Color> prevColors;// = new HashSet<Color>(colors.size()+1);
 	
 	private int stepOnColor;
 	
@@ -61,7 +64,7 @@ public class InstructionManager {
 		
 		this.colorGrid = r.colors;
 		this.colors = r.colorMap;
-		
+		this.prevColors = new HashSet<Color>(colors.size()+1);
 		// set currentColor
 		this.currentColor = getNextMostCommonColor(null);
 		
@@ -107,6 +110,7 @@ public class InstructionManager {
 		// make sure the player has the dye in their inventory
 		while (!inv.contains(this.currentColor.item.getDefaultStack()))
 		{
+			
 			this.currentColor = getNextMostCommonColor(this.currentColor);
 			
 			if (this.currentColor == null)
@@ -225,7 +229,14 @@ public class InstructionManager {
 		int origSize;
 		Color nextMaxColor = null;
 		
+		if (c != null)
+			System.out.println("+Set contains " + c.name + ": " + this.prevColors.contains(c) + " quantity: " + this.colors.get(c).size());
+		
 		this.prevColors.add(c);
+		
+		if (c != null)
+			System.out.println("-Set contains " + c.name + ": " + this.prevColors.contains(c) + " size: " + this.prevColors.size());
+		
 		
 		if (c == null)
 		{
@@ -247,6 +258,10 @@ public class InstructionManager {
 			if (e.getKey().equals(c))
 				continue;
 			
+			// skip if already done
+			if (this.prevColors.contains(e.getKey()))
+				continue;
+			
 			// same size, can't be bothered to do a not terrible fix
 			if (e.getValue().size() == origSize && !this.prevColors.contains(e.getKey()) && !c.equals(e.getKey()))
 			{
@@ -257,7 +272,6 @@ public class InstructionManager {
 			// smaller than current, bigger than everything else so far
 			if (e.getValue().size() > nextLargest && !e.getValue().equals(c))
 			{
-				System.out.println(e.getValue().size() + " - " + origSize);
 				nextLargest = e.getValue().size();
 				nextMaxColor = e.getKey();
 				continue;

@@ -9,6 +9,7 @@ import net.fabric.painter.instructions.InstructionBlock;
 import net.fabric.painter.instructions.Point;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
@@ -79,12 +80,20 @@ public class Hotkeys
 		return toggle;
 	}
 
-	private void updateOrientation()
+	private void updateOrientation(MinecraftClient client)
 	{
 		if (Queue.instMan != null)
-			Perform.doInstruction(new InstructionBlock(Queue.instMan.getColorAtPoint(new Point(col,row)).item, new Point(col, row), InstructionBlock.NO_CLICK));
-		else
+		{
+//			Perform.doInstruction(new InstructionBlock(Queue.instMan.getColorAtPoint(new Point(col,row)).item, new Point(col, row), InstructionBlock.NO_CLICK));
 			Perform.doInstruction(new InstructionBlock(null, new Point(col, row), InstructionBlock.NO_CLICK));
+			client.player.sendMessage(Text.literal(Queue.instMan.getColorAtPoint(new Point(col,row)).toString()), true);
+		}
+			
+		else
+		{
+			Perform.doInstruction(new InstructionBlock(null, new Point(col, row), InstructionBlock.NO_CLICK));
+		}
+			
 	}
 	
 	public void listen()
@@ -99,7 +108,7 @@ public class Hotkeys
 					col = 31;
 				}
 
-				updateOrientation();
+				updateOrientation(client);
 				
 			}
 			while(right.wasPressed())
@@ -110,7 +119,7 @@ public class Hotkeys
 					col = 0;
 				}
 
-				updateOrientation();
+				updateOrientation(client);
 			}
 			while(up.wasPressed())
 			{
@@ -120,7 +129,7 @@ public class Hotkeys
 					row = 31;
 				}
 
-				updateOrientation();
+				updateOrientation(client);
 			}
 			while(down.wasPressed())
 			{
@@ -130,7 +139,7 @@ public class Hotkeys
 					row = 0;
 				}
 
-				updateOrientation();
+				updateOrientation(client);
 			}
 			
 			while(startstop.wasPressed())

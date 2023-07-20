@@ -16,7 +16,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class Queue 
 {
-	private static int counter = 0;
+	private static int counter = 3;
 	public static int delay = 8;
 	public static int step = 0;
 	public static ArrayList<InstructionBlock> instructions = null;

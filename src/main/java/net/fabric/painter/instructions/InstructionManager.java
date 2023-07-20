@@ -75,6 +75,11 @@ public class InstructionManager {
 		
 		this.stepOnColor = 0;
 	}
+	
+	public void nullSponge()
+	{
+		this.sponge = null;
+	}
 	/*
 	 * returns an instruction block that tells the client what to do next.
 	 * Needs to keep track of everything, and update sponge as needed.

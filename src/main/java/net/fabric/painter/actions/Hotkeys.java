@@ -155,6 +155,7 @@ public class Hotkeys
 					client.player.sendMessage(Text.literal("stopped"), false);
 					Queue.position = null;
 					Queue.instMan.nullSponge();
+					Queue.resetCounter();
 				}
 				
 //				orientations.clear();

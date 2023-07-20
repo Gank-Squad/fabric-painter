@@ -27,7 +27,10 @@ public class Queue
 	public static InstructionManager instMan = null;
 	
 //	public static ReturnBody panelInstructions = null;
-	
+	public static void resetCounter()
+	{
+		counter = 3;
+	}
 	public static void startCounter()
 	{
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {

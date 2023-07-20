@@ -149,7 +149,7 @@ public class Colors
 			new Color("snow", -1, Items.SNOW, 0xB2B2B2),
 			new Color("snow", -2, Items.SNOW, 0x858585),
 			
-			new Color("ghast_tear", 1, Items.GHAST_TEAR, 0xFCFCFF),
+			new Color("ghast_tear", 1, Items.GHAST_TEAR, 0x6C6B6B),
 			new Color("ghast_tear", 0, Items.GHAST_TEAR, 0xD9D9DC),
 			new Color("ghast_tear", -1, Items.GHAST_TEAR, 0xB2B2B4),
 			new Color("ghast_tear", -2, Items.GHAST_TEAR, 0x3A3A3B),
@@ -179,10 +179,10 @@ public class Colors
 			new Color("emerald", -1, Items.EMERALD, 0x009727),
 			new Color("emerald", -2, Items.EMERALD, 0x274287),
 			
-			new Color("birch_log", 1, Items.BIRCH_LOG, 0x7F5531),
-			new Color("birch_log", 0, Items.BIRCH_LOG, 0x6E492A),
-			new Color("birch_log", -1, Items.BIRCH_LOG, 0x5A3B22),
-			new Color("birch_log", -2, Items.BIRCH_LOG, 0x00711E),
+			new Color("birch_wood", 1, Items.BIRCH_WOOD, 0x7F5531),
+			new Color("birch_wood", 0, Items.BIRCH_WOOD, 0x6E492A),
+			new Color("birch_wood", -1, Items.BIRCH_WOOD, 0x5A3B22),
+			new Color("birch_wood", -2, Items.BIRCH_WOOD, 0x00711E),
 			
 			new Color("egg", 1, Items.EGG, 0x7F5531),
 			new Color("egg", 0, Items.EGG, 0x6E492A),

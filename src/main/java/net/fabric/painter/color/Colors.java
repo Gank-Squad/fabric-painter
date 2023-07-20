@@ -279,15 +279,15 @@ public class Colors
 			new Color("crimson_hyphae", -1, Items.CRIMSON_HYPHAE, 0x3F1114),
 			new Color("crimson_hyphae", -2, Items.CRIMSON_HYPHAE, 0x2F0D0F),
 			
-			new Color("warped_nylium", 1, Items.WARPED_NYLIUM, 0x5B191D),
-			new Color("warped_nylium", 0, Items.WARPED_NYLIUM, 0x4E1519),
-			new Color("warped_nylium", -1, Items.WARPED_NYLIUM, 0x0F575E),
-			new Color("warped_nylium", -2, Items.WARPED_NYLIUM, 0x2F0D0F),
+			new Color("warped_nylium", 1, Items.WARPED_NYLIUM, 0x167D84),
+			new Color("warped_nylium", 0, Items.WARPED_NYLIUM, 0x126B72),
+			new Color("warped_nylium", -1, Items.WARPED_NYLIUM, 0x0F575D),
+			new Color("warped_nylium", -2, Items.WARPED_NYLIUM, 0x0B4145),
 			
 			new Color("warped_stem", 1, Items.WARPED_STEM, 0x398C8A),
-			new Color("warped_stem", 0, Items.WARPED_STEM, 0x492534),
-			new Color("warped_stem", -1, Items.WARPED_STEM, 0x3B1F2A),
-			new Color("warped_stem", -2, Items.WARPED_STEM, 0x2C1720),
+			new Color("warped_stem", 0, Items.WARPED_STEM, 0x317977),
+			new Color("warped_stem", -1, Items.WARPED_STEM, 0x276361),
+			new Color("warped_stem", -2, Items.WARPED_STEM, 0x1E4A49),
 			
 			new Color("warped_hyphae", 1, Items.WARPED_HYPHAE, 0x552B3D),
 			new Color("warped_hyphae", 0, Items.WARPED_HYPHAE, 0x492535),

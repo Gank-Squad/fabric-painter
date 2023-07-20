@@ -119,14 +119,47 @@ public class Queue
 						longDelay = false;
 					}
 					
-					Perform.doInstruction(instructions.get(step));
+//					Perform.doInstruction(instructions.get(step));
+					Perform.doMoveInstruction(instructions.get(step));
 					
-					step++;
+					if (instructions.get(step).isNoClick())
+						step++;
 					
 				}
+				// basically wait a tick and do the 2nd half of an action
+				else if (counter == 2)
+				{
+					if (step >= instructions.size())
+					{
+						step = 0;
+						instructions = instMan.getNextStep(Painter.mc.player.getInventory());
+					}
+					
+					// have run out of instructions
+					if (instructions == null)
+					{
+						client.player.sendMessage(Text.literal("No more instructions"), false);
+						Hotkeys.toggle = false;
+						instMan = null;
+						return;
+					}
+					
+					if (instructions.size() > 1)
+					{
+						longDelay = true;
+					}
+					else
+					{
+						longDelay = false;
+					}
+					
+//					Perform.doInstruction(instructions.get(step));
+					Perform.doClickInstruction(instructions.get(step));
+					
+					if (!instructions.get(step).isNoClick())
+						step++;
+				}
 			}
-				
-	
 		});
 	}
 	

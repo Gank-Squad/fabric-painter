@@ -112,7 +112,7 @@ public class InstructionManager {
 		// make sure the player has the dye in their inventory
 		while (!inv.contains(this.currentColor.item.getDefaultStack()))
 		{
-			
+			System.out.println("player does not have " + this.currentColor.item.getName());
 			this.currentColor = getNextMostCommonColor(this.currentColor);
 			
 			if (this.currentColor == null)

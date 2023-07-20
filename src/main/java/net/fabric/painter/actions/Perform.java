@@ -84,4 +84,38 @@ public class Perform
 			break;
 		}
 	}
+	
+	
+	public static void doMoveInstruction(InstructionBlock instruction)
+	{
+		if (instruction == null)
+			return;
+		
+		if (instruction.item != null)
+			ShiftInv.setItemInActiveHand(instruction.item);
+		
+		if (instruction.point != null)
+		{
+			Painter.mc.player.setYaw((float)  Positions.getOrientation(instruction.point.y, instruction.point.x, Positions.getPlayerCardinality()).yaw);
+			Painter.mc.player.setPitch((float)Positions.getOrientation(instruction.point.y, instruction.point.x, Positions.getPlayerCardinality()).pitch);
+		}
+	}
+	public static void doClickInstruction(InstructionBlock instruction)
+	{
+		if (instruction == null)
+			return;
+		
+		if (instruction.item != null)
+			ShiftInv.setItemInActiveHand(instruction.item);
+		
+		switch (instruction.clickType)
+		{
+		case InstructionBlock.LEFT_CLICK:
+			attack();
+			break;
+		case InstructionBlock.RIGHT_CLICK:
+			startUse();
+			break;
+		}
+	}
 }

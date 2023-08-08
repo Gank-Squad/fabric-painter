@@ -20,7 +20,6 @@ public class WImage extends WWidget {
 	}
 	
 	@Environment(EnvType.CLIENT)
-	@Override
 	public void paint(MatrixStack matrices, int x, int y, int mouseX, int mouseY)
 	{
 		ScreenDrawing.coloredRect(null, 1, 1, 1, 1, 1);

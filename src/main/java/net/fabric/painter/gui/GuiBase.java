@@ -108,6 +108,9 @@ public class GuiBase extends LightweightGuiDescription {
 				e.printStackTrace();
 			}
 			
+			
+			System.out.println("a\na\na finding the total panels !!! \na\na");
+			
 			// update totalPanels for the incremental selector
 			totalPanels = ReadFromFile.getNumberOfPanels(filePath.getText());
 			
@@ -194,6 +197,7 @@ public class GuiBase extends LightweightGuiDescription {
 					// setup the instruction manager
 					// need to make it throw errors, but thats an issue for later
 					Queue.instMan = new InstructionManager(filePath.getText(), panelNum);
+					totalPanels = ReadFromFile.getNumberOfPanels(filePath.getText());
 //					ReadFromFile.getOrCreateInstructions(filePath.getText(), panelNum);
 				}
 				catch (Exception e)

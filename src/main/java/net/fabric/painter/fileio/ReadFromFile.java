@@ -236,6 +236,8 @@ public class ReadFromFile {
 					
 				}
 			}
+			
+			System.out.println(maxNum);
 			return maxNum;
 		}
 		

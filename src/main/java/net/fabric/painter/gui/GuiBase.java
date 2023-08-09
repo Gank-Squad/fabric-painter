@@ -77,7 +77,7 @@ public class GuiBase extends LightweightGuiDescription {
 		filePath = new WTextField();
 		filePath.setMaxLength(512);
 		filePath.setText("C:");
-	    root.add(filePath, 1, 1, 7, 1);
+	    root.add(filePath, 1, 1, 20, 1);
 		
 //		createScrollPanel(root, scroll);
 		
@@ -85,38 +85,6 @@ public class GuiBase extends LightweightGuiDescription {
 		WDynamicLabel progressLabel = new WDynamicLabel(() -> I18n.translate("%s", progress), -1);
 		progressLabel.setColor(0, 0);
 		root.add(progressLabel, 11, 1, 5, 2);
-		
-	    
-	    WButton loadImageButton = new WButton();
-	    loadImageButton.setLabel(Text.literal("Process"));
-	    loadImageButton.setOnClick(() ->{
-	    	
-			
-			// attempt to process image at path
-			progress = "working...";
-			try
-			{
-				if (ReadFromFile.getOrCreateInstructions(filePath.getText(), 0) == null)
-				{
-					throw new Exception("unable to process given path");
-				}
-				progress += "finished";
-			}
-			catch (Exception e)
-			{
-				progress += "failed";
-				e.printStackTrace();
-			}
-			
-			
-			System.out.println("a\na\na finding the total panels !!! \na\na");
-			
-			// update totalPanels for the incremental selector
-			totalPanels = ReadFromFile.getNumberOfPanels(filePath.getText());
-			
-		});
-	    root.add(loadImageButton, 8, 1, 3,2);
-	    
 
 	    WLabel disclaimer2 = new WLabel(Text.literal("Load will load instructions, if none exist it will create them"));
 	    root.add(disclaimer2, 1,5, 3,3);

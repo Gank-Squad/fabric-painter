@@ -2,15 +2,11 @@ package net.fabric.painter.actions;
 
 import java.util.ArrayList;
 
-import org.apache.commons.compress.harmony.unpack200.bytecode.forms.ThisFieldRefForm;
-
 import net.fabric.painter.Painter;
-import net.fabric.painter.color.Colors;
-import net.fabric.painter.fileio.ReturnBody;
 import net.fabric.painter.instructions.InstructionBlock;
 import net.fabric.painter.instructions.InstructionManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.item.Items;
+import net.minecraft.item.Item;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
@@ -31,9 +27,32 @@ public class Queue
 	{
 		counter = 3;
 	}
+	
+	private static String getMissingDyesString()
+	{
+		int counter = 0;
+		final int counterMax = 10;
+		String missingColors = "Missing Dyes: ";
+		
+		for (String s : instMan.missingColors)
+		{
+			if (counter > counterMax)
+				break;
+			
+			missingColors += s + ", ";
+			counter++;
+		}
+		
+		if (counter > counterMax)
+			missingColors += "+ " + (instMan.missingColors.size() - counter) + " more";
+
+		return missingColors;
+	}
+	
 	public static void startCounter()
 	{
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {
+//			System.out.println(client.player.getInventory().size());
 			if (!Hotkeys.getToggle())
 			{
 				return;
@@ -80,6 +99,8 @@ public class Queue
 				if (instructions == null)
 				{
 					client.player.sendMessage(Text.literal("No more instructions:3"), false);
+					
+					client.player.sendMessage(Text.literal(getMissingDyesString()), false);
 					Hotkeys.toggle = false;
 					instMan = null;
 					return;
@@ -104,6 +125,9 @@ public class Queue
 					if (instructions == null)
 					{
 						client.player.sendMessage(Text.literal("No more instructions"), false);
+						
+						client.player.sendMessage(Text.literal(getMissingDyesString()), false);
+						
 						Hotkeys.toggle = false;
 						instMan = null;
 						return;
@@ -142,6 +166,9 @@ public class Queue
 					if (instructions == null)
 					{
 						client.player.sendMessage(Text.literal("No more instructions"), false);
+						
+						client.player.sendMessage(Text.literal(getMissingDyesString()), false);
+						
 						Hotkeys.toggle = false;
 						instMan = null;
 						return;

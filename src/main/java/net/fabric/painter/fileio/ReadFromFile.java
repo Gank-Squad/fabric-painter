@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+import net.fabric.painter.Painter;
 import net.fabric.painter.color.Color;
 import net.fabric.painter.color.Colors;
 import net.fabric.painter.instructions.Point;
@@ -112,10 +113,13 @@ public class ReadFromFile {
 	// return both
 	public static ReturnBody getBodyFromFile(String DirectoryPath, int fileNumber) throws IOException, FileNotFoundException
 	{
+		Painter.LOGGER.info("getting body from file from this path: " + DirectoryPath);
+		Painter.LOGGER.info("^ with fileNumber of: " + fileNumber);
+		
 		ReturnBody out = new ReturnBody();
 		try
 		{
-			File file = new File(DirectoryPath + "\\" + fileNumber + ".csv");
+			File file = new File(DirectoryPath + File.separator + fileNumber + ".csv");
 			
 			Scanner reader = new Scanner(file);
 			int y = 0;
@@ -209,7 +213,9 @@ public class ReadFromFile {
 		
 		// if its not a directory, getDirPath(), repeat previous step if directory exists
 		// if directory does not exist, return 0
-		System.out.println("a");
+		
+		Painter.LOGGER.info("get panels: " + path);
+		
 		File file = new File(path);
 		int maxNum = 0;
 		if (file.isDirectory())
@@ -236,7 +242,7 @@ public class ReadFromFile {
 					
 				}
 			}
-			
+			Painter.LOGGER.info("maxNum called, in dir, result: " + maxNum);
 			System.out.println(maxNum);
 			return maxNum;
 		}
@@ -273,6 +279,9 @@ public class ReadFromFile {
 			}
 			catch (Exception e) {}
 		}
+		
+		Painter.LOGGER.info("maxNum not sure how you reach this: " + maxNum);
+		
 		return maxNum;
 	}
 }

@@ -31,6 +31,8 @@ public class InstructionManager {
 //	private ArrayList<Color> prevColors = new ArrayList<Color>();
 	private Set<Color> prevColors;// = new HashSet<Color>(colors.size()+1);
 	
+	public HashSet<String> missingColors = new HashSet<String>();
+	
 	private int stepOnColor;
 	
 	public InstructionManager(String directoryPath, int fileNumber)
@@ -39,10 +41,11 @@ public class InstructionManager {
 		ReturnBody r = null;
 		try
 		{
-//			r = ReadFromFile.getBodyFromFile(directoryPath, fileNumber);
+			// swapping back to this because I don't want this to make files anymore
+			r = ReadFromFile.getBodyFromFile(directoryPath, fileNumber);
 			
 			// gonna try swapping to this for added redundancy
-			r = ReadFromFile.getOrCreateInstructions(directoryPath, fileNumber);
+//			r = ReadFromFile.getOrCreateInstructions(directoryPath, fileNumber);
 			
 		}
 		catch(Exception e)
@@ -117,7 +120,11 @@ public class InstructionManager {
 		// make sure the player has the dye in their inventory
 		while (!inv.contains(this.currentColor.item.getDefaultStack()))
 		{
-			System.out.println("player does not have " + this.currentColor.item.getName());
+			System.out.println("player does not have " + this.currentColor.item.getName().getString());
+			
+			missingColors.add(this.currentColor.item.getName().getString());
+			System.out.println(missingColors.contains(this.currentColor.item.getName().getString()));
+			
 			this.currentColor = getNextMostCommonColor(this.currentColor);
 			
 			if (this.currentColor == null)
@@ -236,14 +243,14 @@ public class InstructionManager {
 		int origSize;
 		Color nextMaxColor = null;
 		
-		if (c != null)
-			System.out.println("+Set contains " + c.name + ": " + this.prevColors.contains(c) + " quantity: " + this.colors.get(c).size());
+//		if (c != null)
+//			System.out.println("+Set contains " + c.name + ": " + this.prevColors.contains(c) + " quantity: " + this.colors.get(c).size());
 		
 		this.prevColors.add(c);
 		
-		if (c != null)
-			System.out.println("-Set contains " + c.name + ": " + this.prevColors.contains(c) + " size: " + this.prevColors.size());
-		
+//		if (c != null)
+//			System.out.println("-Set contains " + c.name + ": " + this.prevColors.contains(c) + " size: " + this.prevColors.size());
+//		
 		
 		if (c == null)
 		{

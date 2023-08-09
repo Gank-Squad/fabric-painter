@@ -24,6 +24,8 @@ public class Hotkeys
 	private static KeyBinding up;
 	private static KeyBinding down;
 	
+	private static KeyBinding lootInventory; 
+	
 	public static int row = 0;
 	public static int col = 0;
 	
@@ -71,6 +73,13 @@ public class Hotkeys
 				"increments row by 1",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_DOWN,
+				"Painter"
+				));
+		
+		lootInventory = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+				"loots inventory",
+				InputUtil.Type.KEYSYM,
+				GLFW.GLFW_KEY_J,
 				"Painter"
 				));
 		
@@ -165,6 +174,10 @@ public class Hotkeys
 			{
 //				// open gui
 				Painter.mc.getInstance().setScreen(new GuiScreen(new GuiBase()));
+			}
+			while(lootInventory.wasPressed())
+			{
+				System.out.println(client.player.getInventory().size());
 			}
 		});
 	}

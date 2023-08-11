@@ -108,10 +108,11 @@ public class Queue
 					else
 					{
 						client.player.sendMessage(Text.literal("finished with no missing dyes"), false);
+						instMan = null;
 					}
 					
 					Hotkeys.toggle = false;
-					instMan = null;
+					
 					return;
 				}
 
@@ -143,10 +144,11 @@ public class Queue
 						else
 						{
 							client.player.sendMessage(Text.literal("finished with no missing dyes"), false);
+							instMan = null;
 						}
 						
 						Hotkeys.toggle = false;
-						instMan = null;
+						
 						return;
 					}
 					
@@ -192,10 +194,10 @@ public class Queue
 						else
 						{
 							client.player.sendMessage(Text.literal("finished with no missing dyes"), false);
+							instMan = null;
 						}
 						
-						Hotkeys.toggle = false;
-						instMan = null;
+						Hotkeys.toggle = false;				
 						return;
 					}
 					

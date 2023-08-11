@@ -37,6 +37,7 @@ public class GuiBase extends LightweightGuiDescription {
 	public static WButton panelPlus = null;
 	public static WButton panelMinus = null;
 	public static WButton loadInstructions = null;
+	
 	public static int panelNum = 0;
 	private static int totalPanels = 0;
 	
@@ -148,6 +149,8 @@ public class GuiBase extends LightweightGuiDescription {
 			panelPlus.setOnClick(() -> {
 				if (panelNum < totalPanels)
 					panelNum++;
+				else
+					panelNum = 0;
 			});
 			
 			panelMinus = new WButton();
@@ -155,6 +158,8 @@ public class GuiBase extends LightweightGuiDescription {
 			panelMinus.setOnClick(() ->{
 				if (panelNum > 0)
 					panelNum--;
+				else
+					panelNum = totalPanels;
 			});
 			
 			loadInstructions = new WButton();

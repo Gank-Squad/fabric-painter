@@ -304,4 +304,18 @@ public class InstructionManager {
 	{
 		return colorGrid[p.x][p.y];
 	}
+	
+	public void resetToStartOfInstructions()
+	{
+		this.prevColors = new HashSet<Color>(colors.size()+1);
+		// set currentColor
+		this.currentColor = getNextMostCommonColor(null);
+		
+		// ignore the most common color for the time being, assume player manually set the background
+		this.currentColor = getNextMostCommonColor(this.currentColor);
+		
+		this.stepOnColor = 0;
+		this.sponge = null;
+
+	}
 }

@@ -44,7 +44,7 @@ public class Queue
 		}
 		
 		if (counter > counterMax)
-			missingColors += "+ " + (instMan.missingColors.size() - counter) + " more";
+			missingColors += "+ " + (instMan.missingColors.size() - counter + 1) + " more";
 
 		return missingColors;
 	}
@@ -100,7 +100,16 @@ public class Queue
 				{
 					client.player.sendMessage(Text.literal("No more instructions:3"), false);
 					
-					client.player.sendMessage(Text.literal(getMissingDyesString()), false);
+					if (instMan.missingColors.size() > 0)
+					{
+						client.player.sendMessage(Text.literal(getMissingDyesString()), false);
+						instMan.resetToStartOfInstructions();
+					}
+					else
+					{
+						client.player.sendMessage(Text.literal("finished with no missing dyes"), false);
+					}
+					
 					Hotkeys.toggle = false;
 					instMan = null;
 					return;
@@ -126,7 +135,15 @@ public class Queue
 					{
 						client.player.sendMessage(Text.literal("No more instructions"), false);
 						
-						client.player.sendMessage(Text.literal(getMissingDyesString()), false);
+						if (instMan.missingColors.size() > 0)
+						{
+							client.player.sendMessage(Text.literal(getMissingDyesString()), false);
+							instMan.resetToStartOfInstructions();
+						}
+						else
+						{
+							client.player.sendMessage(Text.literal("finished with no missing dyes"), false);
+						}
 						
 						Hotkeys.toggle = false;
 						instMan = null;
@@ -167,7 +184,15 @@ public class Queue
 					{
 						client.player.sendMessage(Text.literal("No more instructions"), false);
 						
-						client.player.sendMessage(Text.literal(getMissingDyesString()), false);
+						if (instMan.missingColors.size() > 0)
+						{
+							client.player.sendMessage(Text.literal(getMissingDyesString()), false);
+							instMan.resetToStartOfInstructions();
+						}
+						else
+						{
+							client.player.sendMessage(Text.literal("finished with no missing dyes"), false);
+						}
 						
 						Hotkeys.toggle = false;
 						instMan = null;

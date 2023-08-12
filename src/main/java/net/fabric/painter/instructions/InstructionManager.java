@@ -318,4 +318,5 @@ public class InstructionManager {
 		this.sponge = null;
 
 	}
+	public boolean isColorGridNull() { return this.colorGrid == null; }
 }

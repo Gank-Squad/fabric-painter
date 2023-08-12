@@ -77,7 +77,7 @@ public class GuiBase extends LightweightGuiDescription {
 		
 		filePath = new WTextField();
 		filePath.setMaxLength(512);
-		filePath.setText("C:");
+		filePath.setText("");
 	    root.add(filePath, 1, 1, 20, 1);
 		
 //		createScrollPanel(root, scroll);

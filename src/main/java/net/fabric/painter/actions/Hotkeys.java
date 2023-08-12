@@ -91,7 +91,7 @@ public class Hotkeys
 
 	private void updateOrientation(MinecraftClient client)
 	{
-		if (Queue.instMan != null)
+		if (Queue.instMan != null && !Queue.instMan.isColorGridNull())
 		{
 //			Perform.doInstruction(new InstructionBlock(Queue.instMan.getColorAtPoint(new Point(col,row)).item, new Point(col, row), InstructionBlock.NO_CLICK));
 			Perform.doInstruction(new InstructionBlock(null, new Point(col, row), InstructionBlock.NO_CLICK));

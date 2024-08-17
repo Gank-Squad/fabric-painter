@@ -119,10 +119,10 @@ public class Colors
 			new Color("prismarine_crystals", -1, Items.PRISMARINE_CRYSTALS, 0x3D9490),
 			new Color("prismarine_crystals", -2, Items.PRISMARINE_CRYSTALS, 0x2D6D6A),
 			
-			new Color("grass", 1, Items.GRASS, 0x7DB037),
-			new Color("grass", 0, Items.GRASS, 0x6C9730),
-			new Color("grass", -1, Items.GRASS, 0x577B27),
-			new Color("grass", -2, Items.GRASS, 0x405A1C),
+			new Color("short_grass", 1, Items.SHORT_GRASS, 0x7DB037),
+			new Color("short_grass", 0, Items.SHORT_GRASS, 0x6C9730),
+			new Color("short_grass", -1, Items.SHORT_GRASS, 0x577B27),
+			new Color("short_grass", -2, Items.SHORT_GRASS, 0x405A1C),
 			
 			new Color("gold_nugget", 1, Items.GOLD_NUGGET, 0xF7EB4C),
 			new Color("gold_nugget", 0, Items.GOLD_NUGGET, 0xD3CA41),

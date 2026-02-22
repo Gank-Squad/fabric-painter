@@ -1,3 +1,6 @@
+# Archival Notice
+This is no longer being maintained as is, and has been migrated to here: https://github.com/kowandiki/painter
+
 # fabric-painter
 A fabric mod for painting with the ArtMap plugin
 
